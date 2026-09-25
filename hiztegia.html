@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="eu" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AUREA | Archivo Personal & Gestor de Conocimiento</title>
+    <title>Hiztegia - Zibersegurtasun Hiztegia</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,6 +23,7 @@
                     },
                     colors: {
                         obsidian: {
+                            950: '#05070B',
                             900: '#090D14',
                             800: '#0F172A',
                             700: '#1E293B',
@@ -32,7 +33,7 @@
                             100: '#FDFBF7',
                             200: '#F7F0E3',
                             300: '#EBD9B9',
-                            400: '#DFBf85',
+                            400: '#DFBF85',
                             500: '#D4AF37',
                             600: '#B28E28',
                         }
@@ -46,23 +47,21 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(9, 13, 20, 0.8);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.25);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(212, 175, 55, 0.6);
+            background: rgba(212, 175, 55, 0.5);
         }
 
-        /* Glassmorphism utility */
         .glass-panel {
             background: rgba(15, 23, 42, 0.75);
             backdrop-filter: blur(16px);
@@ -70,7 +69,7 @@
             border: 1px solid rgba(212, 175, 55, 0.15);
         }
         
-        .light .glass-panel {
+        html.light .glass-panel {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
@@ -83,511 +82,253 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .gold-border-glow:hover {
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.25);
+        .gold-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .gold-card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.15);
             border-color: rgba(212, 175, 55, 0.4);
         }
 
-        /* Line Clamp for Card Summaries */
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        /* Content Markdown typography styling */
+        .term-content h3 {
+            color: #D4AF37;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
         }
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+        .term-content ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .term-content li {
+            margin-bottom: 0.25rem;
         }
     </style>
 </head>
-<body class="bg-obsidian-900 text-slate-100 min-h-screen font-sans transition-colors duration-300 dark:bg-obsidian-900 dark:text-slate-100 light:bg-slate-50 light:text-slate-900 selection:bg-champagne-500/30 selection:text-champagne-300">
+<body class="bg-obsidian-950 text-slate-100 min-h-screen font-sans transition-colors duration-300 dark:bg-obsidian-950 dark:text-slate-100 light:bg-slate-50 light:text-slate-900 selection:bg-champagne-500/30 selection:text-champagne-300">
 
-    <!-- Toast Notification Container -->
-    <div id="toastContainer" class="fixed top-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
-        <!-- Header / Navigation -->
-        <header class="glass-panel rounded-2xl p-6 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-6 relative overflow-hidden">
-            <!-- Decorative Accent Blur -->
-            <div class="absolute -top-12 -left-12 w-40 h-40 bg-champagne-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-champagne-600 via-champagne-500 to-amber-200 flex items-center justify-center shadow-lg shadow-champagne-500/20 text-obsidian-900 font-serif font-bold text-2xl">
-                    A
-                </div>
-                <div>
-                    <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-tight gold-gradient-text">ÁUREA</h1>
-                    <p class="text-xs sm:text-sm text-slate-400 font-light">Archivo Personal de Conocimiento & Curaduría Elegante</p>
-                </div>
-            </div>
+        <!-- Header Section: Only Title, Search, and Theme Toggle -->
+        <header class="glass-panel rounded-2xl p-4 sm:p-6 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-tight gold-gradient-text flex-shrink-0">
+                Hiztegia
+            </h1>
 
-            <!-- Global Action Bar -->
-            <div class="flex flex-wrap items-center gap-3">
-                <button id="themeToggleBtn" title="Cambiar Tema" class="p-2.5 rounded-xl bg-obsidian-800/80 hover:bg-obsidian-700 text-amber-300 border border-amber-500/20 transition-all duration-200">
+            <div class="flex items-center gap-3 w-full sm:w-auto flex-1 max-w-md justify-end">
+                <!-- Search Input -->
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Bilatu kontzeptua..." class="w-full pl-10 pr-4 py-2 bg-obsidian-900/80 light:bg-slate-100 border border-slate-700/60 light:border-slate-300 rounded-xl text-sm text-slate-100 light:text-slate-900 placeholder-slate-500 focus:outline-none focus:border-champagne-500/60 transition-all duration-200" />
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" title="Aldatu Gaia" class="p-2.5 rounded-xl bg-obsidian-900/80 light:bg-slate-200 hover:bg-obsidian-800 text-amber-400 border border-amber-500/20 transition-all duration-200 flex-shrink-0">
                     <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
                     <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
-                </button>
-
-                <!-- Export/Import Buttons -->
-                <div class="relative group">
-                    <button class="p-2.5 rounded-xl bg-obsidian-800/80 hover:bg-obsidian-700 text-slate-300 border border-slate-700/60 transition-all duration-200 flex items-center gap-2 text-xs font-medium">
-                        <i data-lucide="hard-drive-download" class="w-4 h-4 text-champagne-400"></i>
-                        <span class="hidden sm:inline">Backup</span>
-                    </button>
-                    <div class="absolute right-0 mt-2 w-48 bg-obsidian-800 border border-amber-500/20 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none group-hover:pointer-events-auto z-30 p-1">
-                        <button id="exportBtn" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-obsidian-700 hover:text-amber-300 rounded-lg flex items-center gap-2">
-                            <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar datos (JSON)
-                        </button>
-                        <label for="importInput" class="w-full text-left px-3 py-2 text-xs text-slate-300 hover:bg-obsidian-700 hover:text-amber-300 rounded-lg flex items-center gap-2 cursor-pointer">
-                            <i data-lucide="upload" class="w-3.5 h-3.5"></i> Importar copia
-                        </label>
-                        <input type="file" id="importInput" accept=".json" class="hidden" />
-                    </div>
-                </div>
-
-                <button id="addNewBtn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-champagne-500 to-amber-600 hover:from-champagne-400 hover:to-amber-500 text-obsidian-900 font-semibold text-sm shadow-lg shadow-champagne-500/20 transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-2">
-                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                    <span>Nueva Entrada</span>
                 </button>
             </div>
         </header>
 
-        <!-- Dashboard Stats Row -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Total Registros</p>
-                    <p id="statTotal" class="text-2xl font-bold font-serif text-slate-100 mt-1">0</p>
-                </div>
-                <div class="p-3 bg-amber-500/10 rounded-lg text-champagne-400">
-                    <i data-lucide="database" class="w-6 h-6"></i>
-                </div>
-            </div>
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Favoritos</p>
-                    <p id="statFavorites" class="text-2xl font-bold font-serif text-amber-400 mt-1">0</p>
-                </div>
-                <div class="p-3 bg-amber-500/10 rounded-lg text-amber-400">
-                    <i data-lucide="star" class="w-6 h-6"></i>
-                </div>
-            </div>
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Categorías</p>
-                    <p id="statCategories" class="text-2xl font-bold font-serif text-emerald-400 mt-1">0</p>
-                </div>
-                <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400">
-                    <i data-lucide="tag" class="w-6 h-6"></i>
-                </div>
-            </div>
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Vista Actual</p>
-                    <p id="statFilterLabel" class="text-sm font-semibold text-slate-200 mt-1 truncate">Todas</p>
-                </div>
-                <div class="p-3 bg-blue-500/10 rounded-lg text-blue-400">
-                    <i data-lucide="filter" class="w-6 h-6"></i>
-                </div>
-            </div>
-        </section>
-
-        <!-- Controls: Search, View Mode, Category Pills, Sort -->
-        <section class="glass-panel p-5 rounded-2xl space-y-4">
-            <div class="flex flex-col lg:flex-row gap-4 justify-between items-center">
-                <!-- Search Input -->
-                <div class="relative w-full lg:w-96">
-                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                    <input type="text" id="searchInput" placeholder="Buscar en títulos, resúmenes o notas..." class="w-full pl-10 pr-4 py-2.5 bg-obsidian-800/80 border border-slate-700/80 rounded-xl text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-champagne-500/60 transition-all duration-200" />
-                </div>
-
-                <!-- Sort & View Controls -->
-                <div class="flex flex-wrap items-center gap-3 w-full lg:w-auto justify-end">
-                    <!-- Sort dropdown -->
-                    <div class="flex items-center gap-2 bg-obsidian-800/80 border border-slate-700/80 rounded-xl px-3 py-1.5">
-                        <i data-lucide="arrow-up-down" class="w-3.5 h-3.5 text-champagne-400"></i>
-                        <span class="text-xs text-slate-400">Orden:</span>
-                        <select id="sortSelect" class="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer">
-                            <option value="newest" class="bg-obsidian-800">Más recientes</option>
-                            <option value="oldest" class="bg-obsidian-800">Más antiguos</option>
-                            <option value="title" class="bg-obsidian-800">Alfabético (A-Z)</option>
-                            <option value="favorites" class="bg-obsidian-800">Favoritos primero</option>
-                        </select>
-                    </div>
-
-                    <!-- View Toggle -->
-                    <div class="flex items-center bg-obsidian-800/80 border border-slate-700/80 rounded-xl p-1 gap-1">
-                        <button id="viewGridBtn" class="p-1.5 rounded-lg text-amber-400 bg-obsidian-700 transition-all" title="Vista en Cuadrícula">
-                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
-                        </button>
-                        <button id="viewListBtn" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-all" title="Vista en Lista Compacta">
-                            <i data-lucide="list" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Categories Horizontal Filter Bar -->
-            <div class="pt-2 border-t border-slate-800/80">
-                <div id="categoryPills" class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-                    <!-- Dynamic Pills inserted via JavaScript -->
-                </div>
-            </div>
-        </section>
-
-        <!-- Content Display Area -->
         <main>
-            <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Cards dynamically populated -->
+            <div id="cardsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Dynamic concept cards inserted via JS -->
             </div>
 
-            <!-- Empty State -->
-            <div id="emptyState" class="hidden glass-panel rounded-2xl p-12 text-center flex flex-col items-center justify-center space-y-4 my-8">
-                <div class="w-16 h-16 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-champagne-400">
-                    <i data-lucide="file-search" class="w-8 h-8"></i>
+            <!-- Empty Search State -->
+            <div id="emptyState" class="hidden glass-panel rounded-2xl p-12 text-center flex flex-col items-center justify-center space-y-3 my-8">
+                <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-champagne-400">
+                    <i data-lucide="search-x" class="w-6 h-6"></i>
                 </div>
-                <h3 class="font-serif text-xl font-bold text-slate-200">No se encontraron elementos</h3>
-                <p class="text-sm text-slate-400 max-w-md">No hay información que coincida con tus criterios de búsqueda o filtro actual. Prácticamente puedes añadir un nuevo elemento o limpiar los filtros.</p>
-                <button id="clearFiltersBtn" class="px-4 py-2 bg-obsidian-800 hover:bg-obsidian-700 text-xs text-champagne-400 rounded-xl border border-amber-500/30 transition-all">
-                    Restablecer Filtros
-                </button>
+                <h3 class="font-serif text-lg font-bold text-slate-200 light:text-slate-800">Ez da emaitzarik aurkitu</h3>
+                <p class="text-xs text-slate-400 max-w-xs">Saiatu beste bilaketa-terminoren bat erabiltzen.</p>
             </div>
         </main>
     </div>
 
-    <!-- Modal: Form (Create / Edit Entry) -->
-    <div id="formModal" class="fixed inset-0 z-40 hidden flex items-center justify-center p-4 bg-obsidian-900/80 backdrop-blur-md transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-2xl rounded-2xl border border-amber-500/30 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-obsidian-800/50">
-                <div class="flex items-center gap-2">
-                    <i data-lucide="file-plus" class="w-5 h-5 text-champagne-400"></i>
-                    <h2 id="modalTitle" class="font-serif font-bold text-lg text-slate-100">Nueva Entrada de Información</h2>
-                </div>
-                <button id="closeFormModalBtn" class="text-slate-400 hover:text-slate-200 p-1 rounded-lg">
+    <!-- Modal: Concept Reader View -->
+    <div id="readerModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-950/80 backdrop-blur-md transition-opacity duration-300">
+        <div class="glass-panel w-full max-w-2xl rounded-2xl border border-amber-500/30 shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+            <!-- Modal Header -->
+            <div class="px-6 py-4 border-b border-slate-800/80 light:border-slate-200 flex justify-between items-center bg-obsidian-900/50 light:bg-slate-100/50">
+                <span class="text-xs font-semibold text-champagne-400 uppercase tracking-widest">Zibersegurtasun Terminoa</span>
+                <button id="closeReaderModalBtn" class="text-slate-400 hover:text-amber-400 p-1 rounded-lg transition-colors">
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
 
-            <form id="entryForm" class="p-6 overflow-y-auto space-y-4">
-                <input type="hidden" id="entryId" />
-
-                <!-- Title & Emoji -->
-                <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                    <div class="sm:col-span-3">
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Título de la Entrada *</label>
-                        <input type="text" id="inputTitle" required placeholder="Ej: Principios de Diseño Atemporal" class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60" />
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Icono / Emoji</label>
-                        <select id="inputEmoji" class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60">
-                            <option value="💡">💡 Idea</option>
-                            <option value="📚">📚 Libro</option>
-                            <option value="💻">💻 Tech</option>
-                            <option value="🎨">🎨 Diseño</option>
-                            <option value="🏛️">🏛️ Arquitectura</option>
-                            <option value="🌿">🌿 Estilo de vida</option>
-                            <option value="⚡">⚡ Proyecto</option>
-                            <option value="📌">📌 Nota</option>
-                            <option value="💎">💎 Valor</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Category & URL -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Categoría *</label>
-                        <input type="text" id="inputCategory" list="categoriesList" required placeholder="Ej: Ideas, Libros, Proyectos..." class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60" />
-                        <datalist id="categoriesList">
-                            <option value="Ideas"></option>
-                            <option value="Tecnología"></option>
-                            <option value="Diseño"></option>
-                            <option value="Libros"></option>
-                            <option value="Proyectos"></option>
-                            <option value="Notas"></option>
-                        </datalist>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Enlace / URL de referencia (Opcional)</label>
-                        <input type="url" id="inputUrl" placeholder="https://..." class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60" />
-                    </div>
-                </div>
-
-                <!-- Short Summary -->
+            <!-- Modal Content Body -->
+            <div class="p-6 sm:p-8 overflow-y-auto space-y-6">
                 <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Resumen corto *</label>
-                    <input type="text" id="inputSummary" required placeholder="Sintetiza la idea principal en una o dos frases..." class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60" />
+                    <h2 id="readerTitle" class="font-serif text-2xl sm:text-3xl font-bold text-slate-100 light:text-slate-900 leading-snug gold-gradient-text">
+                        Terminoaren izena
+                    </h2>
                 </div>
 
-                <!-- Detailed Content -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-300 mb-1">Contenido Detallado *</label>
-                    <textarea id="inputContent" rows="6" required placeholder="Escribe la información completa, notas profundas, citas, reflexiones..." class="w-full px-3 py-2 bg-obsidian-800/90 border border-slate-700 rounded-xl text-sm text-slate-100 focus:outline-none focus:border-champagne-500/60 font-sans"></textarea>
-                </div>
-
-                <!-- Checkbox Favorite -->
-                <div class="flex items-center gap-2 pt-2">
-                    <input type="checkbox" id="inputFavorite" class="w-4 h-4 rounded text-champagne-500 bg-obsidian-800 border-slate-700 focus:ring-amber-500/40" />
-                    <label for="inputFavorite" class="text-xs font-medium text-slate-300 flex items-center gap-1 cursor-pointer">
-                        <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400"></i> Marcar como Destacado / Favorito
-                    </label>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="pt-4 border-t border-slate-800 flex justify-end gap-3">
-                    <button type="button" id="cancelFormBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-xl transition-all">Cancelar</button>
-                    <button type="submit" class="px-5 py-2 bg-gradient-to-r from-champagne-500 to-amber-600 hover:from-champagne-400 hover:to-amber-500 text-obsidian-900 font-semibold text-xs rounded-xl shadow-lg shadow-champagne-500/20 transition-all">
-                        Guardar Información
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal: Reader / Detail View -->
-    <div id="readerModal" class="fixed inset-0 z-40 hidden flex items-center justify-center p-4 bg-obsidian-900/85 backdrop-blur-md transition-opacity duration-300">
-        <div class="glass-panel w-full max-w-3xl rounded-2xl border border-amber-500/30 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-            <!-- Reader Header -->
-            <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-obsidian-800/60">
-                <div class="flex items-center gap-2">
-                    <span id="readerEmoji" class="text-2xl">💡</span>
-                    <span id="readerCategory" class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-champagne-400 border border-amber-500/20">Categoría</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="readerCopyBtn" title="Copiar Contenido" class="p-2 text-slate-400 hover:text-amber-400 rounded-lg hover:bg-obsidian-700 transition-all">
-                        <i data-lucide="copy" class="w-4 h-4"></i>
-                    </button>
-                    <button id="readerFavoriteBtn" title="Favorito" class="p-2 text-slate-400 hover:text-amber-400 rounded-lg hover:bg-obsidian-700 transition-all">
-                        <i data-lucide="star" class="w-4 h-4"></i>
-                    </button>
-                    <button id="readerEditBtn" title="Editar" class="p-2 text-slate-400 hover:text-amber-400 rounded-lg hover:bg-obsidian-700 transition-all">
-                        <i data-lucide="edit-3" class="w-4 h-4"></i>
-                    </button>
-                    <button id="closeReaderModalBtn" class="p-2 text-slate-400 hover:text-slate-100 rounded-lg hover:bg-obsidian-700 transition-all">
-                        <i data-lucide="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Reader Body -->
-            <div class="p-6 md:p-8 overflow-y-auto space-y-6">
-                <div>
-                    <h2 id="readerTitle" class="font-serif text-2xl sm:text-3xl font-bold text-slate-100 leading-snug">Título del Artículo</h2>
-                    <p id="readerDate" class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-                        <i data-lucide="clock" class="w-3.5 h-3.5 text-champagne-400"></i> Guardado el 25 de septiembre, 2026
+                <div class="p-4 rounded-xl bg-amber-500/10 border-l-2 border-champagne-500">
+                    <p id="readerSummary" class="text-sm italic text-champagne-200 light:text-amber-900 font-medium">
+                        Laburpen azkarra...
                     </p>
                 </div>
 
-                <div class="p-4 rounded-xl bg-obsidian-800/60 border-l-4 border-champagne-500">
-                    <p id="readerSummary" class="text-sm italic text-champagne-200">Resumen sintético del contenido guardado.</p>
-                </div>
-
-                <div class="prose prose-invert max-w-none">
-                    <div id="readerContent" class="text-slate-200 text-sm md:text-base leading-relaxed whitespace-pre-line space-y-4 font-sans">
-                        <!-- Full content text -->
-                    </div>
-                </div>
-
-                <div id="readerLinkContainer" class="pt-4 border-t border-slate-800 hidden">
-                    <a id="readerLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-semibold text-champagne-400 hover:text-champagne-300 underline underline-offset-4">
-                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i> Abrir enlace original de referencia
-                    </a>
+                <div class="term-content text-slate-300 light:text-slate-700 text-sm leading-relaxed whitespace-pre-line space-y-3" id="readerContent">
+                    <!-- Detailed Basque concept content inserted dynamically -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal: Confirmation (Delete action) -->
-    <div id="confirmModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-obsidian-900/80 backdrop-blur-md">
-        <div class="glass-panel w-full max-w-sm rounded-2xl p-6 border border-red-500/30 shadow-2xl text-center space-y-4">
-            <div class="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 mx-auto flex items-center justify-center">
-                <i data-lucide="alert-triangle" class="w-6 h-6"></i>
-            </div>
-            <h3 class="font-serif font-bold text-lg text-slate-100">¿Eliminar esta entrada?</h3>
-            <p class="text-xs text-slate-400">Esta acción borrará permanentemente la información de tu archivo personal.</p>
-            <div class="flex justify-center gap-3 pt-2">
-                <button id="cancelConfirmBtn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs text-slate-300 rounded-xl transition-all">Cancelar</button>
-                <button id="acceptConfirmBtn" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white font-semibold text-xs rounded-xl shadow-lg transition-all">Confirmar Eliminación</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Logic -->
     <script>
-        // Default Mock Data for initial load
-        const INITIAL_ENTRIES = [
+        // Glossary Entries in Basque (Euskera)
+        const GLOSSARY_DATA = [
             {
-                id: '1',
-                title: 'Arquitectura Orgánica de Frank Lloyd Wright',
-                category: 'Arquitectura',
-                emoji: '🏛️',
-                summary: 'La armonía entre el hábitat humano y el mundo natural a través de un diseño integrado.',
-                content: 'La arquitectura orgánica es una filosofía de la arquitectura que promueve la armonía entre el hábitat humano y el mundo natural. Mediante el diseño, los edificios, el mobiliario y el entorno se convierten en parte de una composición unificada e interrelacionada.\n\nPrincipios Clave:\n1. Integración con el entorno topográfico.\n2. Uso de materiales en su estado natural (madera, piedra, cristal).\n3. Espacios fluidos y continuos sin divisiones rígidas.\n\nEjemplo icónico: La Casa de la Cascada (Fallingwater).',
-                url: 'https://en.wikipedia.org/wiki/Organic_architecture',
-                isFavorite: true,
-                createdAt: new Date('2026-09-10T10:00:00').toISOString()
+                id: 'phishing',
+                title: 'Phishing-a',
+                summary: 'Gizarte-ingeniaritzako teknika, informazio konfidantziala eta kredentzialak lapurtzeko helburua duena.',
+                content: `Phishing-a zibereraso mota bat da, non eraso-egileak erakunde edo pertsona fidagarri baten identitatea ordezkatzen duen, biktimak informazio sentsiblea (adibidez, pasahitzak, banku-datuak edo kreditu-txartelen zenbakiak) eman dezan.
+
+### Ezaugarri Nagusiak:
+* **Mezu Alarma-eragileak:** Urgentzia edo mehatxu sentsazioa sortzen dute (adibidez, "zure kontua blokeatuko da").
+* **Esteka Faltsuak:** Benetako webguneen itxura bera duten orri iruzurtsuetara bideratzen dute biktima.
+* **Bide Ohikoenak:** Posta elektronikoa, SMS mezuak (Smishing) edo ahots-deiak (Vishing).
+
+### Babes Neurriak:
+1. Egiaztatu beti bidaltzailearen helbide elektroniko osoa.
+2. Ez egin klik susmagarriak diren esteketan.
+3. Egiaztatu webguneen URL helbideak eta ziurtagiri digitalak.`
             },
             {
-                id: '2',
-                title: 'Principios de Diseño de Dieter Rams',
-                category: 'Diseño',
-                emoji: '🎨',
-                summary: '10 principios fundamentales para un diseño de producto excepcional, simple y funcional.',
-                content: 'Dieter Rams estableció 10 principios que definen el buen diseño:\n\n1. Es innovador.\n2. Hace útil a un producto.\n3. Es estético.\n4. Hace comprensible a un producto.\n5. Es discreto.\n6. Es honesto.\n7. Es duradero.\n8. Es consecuente hasta el último detalle.\n9. Respeta el medio ambiente.\n10. Es el mínimo diseño posible ("Menos, pero mejor").',
-                url: 'https://vitsoe.com/us/about/good-design',
-                isFavorite: true,
-                createdAt: new Date('2026-09-12T14:30:00').toISOString()
+                id: 'biren-erasoa',
+                title: 'Biren erasoa (Man-in-the-Middle)',
+                summary: 'Komunikazio baten erdian eraso-egilea ezkutuan jartzen den eraso mota, datuak entzuteko edo aldatzeko.',
+                content: `Biren erasoa (Man-in-the-Middle edo MitM) zibersegurtasuneko eraso bat da, non erasotzaileak bi alderdiren arteko komunikazioa ezkutuan interceptatu eta bideratzen duen, bi komunikakideek beren artean zuzenean hitz egiten ari direla uste duten bitartean.
+
+### Eraso Motak:
+* **Wi-Fi Publiko Segogabeak:** Ziberdelagileek enkriptatu gabeko sareak erabiltzen dituzte trafikoa atzemateko.
+* **DNS Spoofing:** Biktimak webgune kaltegarrietara bideratzea DNS erregistroak aldatuz.
+* **ARP Spoofing:** Saretegi lokalean IP helbideak MAC helbide faltsuekin lotzea.
+
+### Babes Neurriak:
+1. Erabili beti VPN (Sare Pribatu Birtuala) Wi-Fi publikoetan.
+2. Ziurtatu bisitatzen dituzun orriek HTTPS protokoloa erabiltzen dutela.
+3. Ez egin transakzio garrantzitsurik babestu gabeko sareetan.`
             },
             {
-                id: '3',
-                title: 'Modelo de Atención en Inteligencia Artificial',
-                category: 'Tecnología',
-                emoji: '💻',
-                summary: 'El mecanismo Transformer que revolucionó el procesamiento del lenguaje natural.',
-                content: 'El artículo "Attention Is All You Need" (2017) introdujo la arquitectura Transformer, eliminando las redes neuronales recurrentes (RNN) en favor de un mecanismo de autoatención puro.\n\nVentajas Principales:\n- Paralelización extrema en entrenamiento.\n- Captura eficiente de dependencias a larga distancia en texto o datos secuenciales.\n- Base de los modelos LLM contemporáneos.',
-                url: 'https://arxiv.org/abs/1706.03762',
-                isFavorite: false,
-                createdAt: new Date('2026-09-18T09:15:00').toISOString()
+                id: 'troiarra',
+                title: 'Troiarra (Trojan)',
+                summary: 'Programa kaltegarria, erabilgarria edo legezkoa dela dirudiena, ordenagailuan sartzeko eta erasoak egiteko.',
+                content: `Troiarra (Trojan Horse) software kaltegarri (malware) mota bat da, software legitimo edo erabilgarri baten moduan mozorraturik aurkezten dena. Izena Greziako mitologiako Troiako Zalditik dator.
+
+### Nola Funtzionatzen Du?
+Birusak edo harrak ez bezala, troiarrek ez dute beren burua automatikoki erreplikatzen. Erabiltzaileak berak deskargatu eta exekutatu behar du, fitxategi edo programa babesgarria dela pentsatuz.
+
+### Ondorio Ohikoenak:
+* Ziberdelagileari atzeko ateak (backdoors) irekitzea.
+* Erabiltzailearen pasahitzak eta datu pertsonalak lapurtzea.
+* Sistema urrunetik kontrolatzea botnet baten zati bihurtuz.
+
+### Babes Neurriak:
+1. Deskargatu programak soilik iturburu ofizial eta egiaztatuetatik.
+2. Mantendu antibirusa eta sistema eragilea eguneratuta.`
             },
             {
-                id: '4',
-                title: 'Minimalismo Digital & Trabajo Profundo',
-                category: 'Ideas',
-                emoji: '🌿',
-                summary: 'Estrategias para proteger el enfoque mental en la era de la distracción continua.',
-                content: 'El trabajo profundo (Deep Work) es la capacidad de enfocarse sin distracciones en una tarea cognitivamente exigente.\n\nRutas prácticas:\n• Bloquear horarios específicos en el calendario para tareas complejas.\n• Eliminar notificaciones no esenciales.\n• Cultivar períodos deliberados de aburrimiento para estimular la creatividad asociativa.',
-                url: '',
-                isFavorite: false,
-                createdAt: new Date('2026-09-22T16:45:00').toISOString()
+                id: 'backdoors-ak',
+                title: 'Backdoors-ak (Atzeko ateak)',
+                summary: 'Sistemaren autentifikazio arrunta saihestuz sartzeko bidea ematen duen sarbide sekretua.',
+                content: `Backdoor edo "Atzeko atea" sistema informatiko batean ezkutuan uzten den sarbide bide bat da, ohiko segurtasun-kontrolak eta autentifikazio-mekanismoak saihesteko aukera ematen duena.
+
+### Jatorria eta Motak:
+* **Hardware Backdoors:** Fabrikazio prozesuan txip edo gailuetan sartutakoak.
+* **Software Backdoors:** Garatzaileek mantentze-lanetarako utzitako zirrikituak edo malware bidez sortutakoak.
+
+### Arriskuak:
+Sistemaren jabeak jakin gabe, ziberdelagileek eduki guztietarako sarbide osoa lortu dezakete, kontrola hartuz, datuak erauziz edo sistema bera komando bidez urrunetik kudeatuz.
+
+### Babes Neurriak:
+1. Suhesi (Firewall) sendoak konfiguratu sarrera/irteerako trafikoa ikuskatzeko.
+2. Aldian-aldian segurtasun-auditoriak eta kode berrikuspenak egin.`
+            },
+            {
+                id: 'spyware-a',
+                title: 'Spyware-a',
+                summary: 'Erabiltzailearen jarduera ezkutuan monitorizatzen eta informazioa biltzen duen software kaltegarria.',
+                content: `Spyware-a erabiltzailearen baimenik gabe ordenagailuan instalatzen den malware mota da, haren ohiturak, informazio pertsonala eta sistema-jarduera ezkutuan grabatu eta hirugarrenei bidaltzeko.
+
+### Spyware Mota Nagusiak:
+* **Keylogger-ak:** Teklatuan idatzitako tekla bakoitza erregistratzen dute (pasahitzak detektatzeko).
+* **Adware-a:** Baimenik gabeko publizitatea erakutsi eta nabigatzailearen ohiturak segitzen ditu.
+* **InfoStealer-rak:** Nabigatzailean gordetako datuak eta cookie-ak lapurtzen dituzte.
+
+### Babes Neurriak:
+1. Ez onartu pop-up edo leiho azaleratuen baimen susmagarririk.
+2. Erabili spyware-aren aurkako babes espezifikoa duten segurtasun tresnak.`
+            },
+            {
+                id: 'stealer-rak',
+                title: 'Stealer-rak (InfoStealers)',
+                summary: 'Gailu batetik kredentzialak, saio-hasierak eta kripto-zorroen datuak biltzera bideratutako malware espezializatua.',
+                content: `InfoStealer edo Stealer-ra malware mota oso espezializatua da, helburu bakarra duena: infektatutako gailuan gordetako informazio konfidantziala azkar bildu eta ziberdelagilearen zerbitzarira helaraztea.
+
+### Zer Lapurtzen Dute?
+* Nabigatzaileetan gordetako erabiltzaile-izenak eta pasahitzak.
+* Banku-fakturazioko datuak eta kreditu-txartelak.
+* Kriptomoneta zorroen (crypto-wallets) gako pribatuak.
+* Saio-cookieak (autentifikazio bikoitza saihesteko).
+
+### Babes Neurriak:
+1. Ez gorde pasahitz sentsibleak nabigatzaileen biltegi integratuan; erabili pasahitz-kudeatzaile enkriptatuak.
+2. Erabili bi urratseko autentifikazioa (2FA) aplikazio guztietan.`
             }
         ];
 
-        /* App State */
-        let entries = [];
-        let activeCategory = 'ALL';
-        let currentSearchQuery = '';
-        let currentSort = 'newest';
-        let viewMode = 'grid'; // 'grid' | 'list'
-        let pendingDeleteId = null;
-        let activeReaderEntryId = null;
+        /* Current State */
+        let searchQuery = '';
 
-        // Load & Save LocalStorage
-        function loadStorageData() {
-            try {
-                const stored = localStorage.getItem('aurea_knowledge_db');
-                if (stored) {
-                    entries = JSON.parse(stored);
-                } else {
-                    entries = [...INITIAL_ENTRIES];
-                    saveStorageData();
-                }
-            } catch (e) {
-                console.error('Error al cargar datos:', e);
-                entries = [...INITIAL_ENTRIES];
-            }
-        }
-
-        function saveStorageData() {
-            try {
-                localStorage.setItem('aurea_knowledge_db', JSON.stringify(entries));
-            } catch (e) {
-                console.error('Error al guardar datos:', e);
-                showToast('No se pudo guardar la información localmente', 'error');
-            }
-        }
-
-        // Render UI
-        function renderApp() {
-            renderStats();
-            renderCategoryPills();
+        /* Initialize Lucide Icons & Event Listeners */
+        document.addEventListener('DOMContentLoaded', () => {
             renderCards();
-            lucide.createIcons();
-        }
 
-        // Stats Calculation
-        function renderStats() {
-            const total = entries.length;
-            const favorites = entries.filter(e => e.isFavorite).length;
-            const categories = new Set(entries.map(e => e.category)).size;
-
-            document.getElementById('statTotal').innerText = total;
-            document.getElementById('statFavorites').innerText = favorites;
-            document.getElementById('statCategories').innerText = categories;
-            document.getElementById('statFilterLabel').innerText = activeCategory === 'ALL' ? 'Todas' : activeCategory;
-        }
-
-        // Render Category Filter Pills
-        function renderCategoryPills() {
-            const container = document.getElementById('categoryPills');
-            const categoriesMap = {};
-            entries.forEach(e => {
-                categoriesMap[e.category] = (categoriesMap[e.category] || 0) + 1;
+            // Search Filter Listener
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                renderCards();
             });
 
-            let html = `
-                <button onclick="setCategoryFilter('ALL')" class="px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 border ${
-                    activeCategory === 'ALL' 
-                        ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm' 
-                        : 'bg-obsidian-800/60 text-slate-400 border-slate-700/60 hover:text-slate-200 hover:bg-obsidian-700'
-                }">
-                    ✨ Todas <span class="ml-1 opacity-75">(${entries.length})</span>
-                </button>
-            `;
-
-            Object.keys(categoriesMap).sort().forEach(cat => {
-                const isSelected = activeCategory === cat;
-                html += `
-                    <button onclick="setCategoryFilter('${cat}')" class="px-3.5 py-1.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 border ${
-                        isSelected 
-                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-sm' 
-                            : 'bg-obsidian-800/60 text-slate-400 border-slate-700/60 hover:text-slate-200 hover:bg-obsidian-700'
-                    }">
-                        ${cat} <span class="ml-1 opacity-75">(${categoriesMap[cat]})</span>
-                    </button>
-                `;
+            // Theme Toggle Listener
+            document.getElementById('themeToggleBtn').addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                document.documentElement.classList.toggle('light');
             });
 
-            container.innerHTML = html;
-        }
-
-        // Filter & Sort Entries
-        function getFilteredEntries() {
-            let filtered = entries.filter(item => {
-                const matchesCategory = activeCategory === 'ALL' || item.category === activeCategory;
-                const query = currentSearchQuery.toLowerCase();
-                const matchesSearch = item.title.toLowerCase().includes(query) || 
-                                      item.summary.toLowerCase().includes(query) || 
-                                      item.content.toLowerCase().includes(query) ||
-                                      item.category.toLowerCase().includes(query);
-                return matchesCategory && matchesSearch;
-            });
-
-            // Sorting
-            filtered.sort((a, b) => {
-                if (currentSort === 'newest') {
-                    return new Date(b.createdAt) - new Date(a.createdAt);
-                } else if (currentSort === 'oldest') {
-                    return new Date(a.createdAt) - new Date(b.createdAt);
-                } else if (currentSort === 'title') {
-                    return a.title.localeCompare(b.title);
-                } else if (currentSort === 'favorites') {
-                    return (b.isFavorite === a.isFavorite) ? 0 : b.isFavorite ? 1 : -1;
+            // Modal Close Listener
+            document.getElementById('closeReaderModalBtn').addEventListener('click', closeReaderModal);
+            document.getElementById('readerModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('readerModal')) {
+                    closeReaderModal();
                 }
-                return 0;
             });
 
-            return filtered;
-        }
+            // Escape key listener for modal
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeReaderModal();
+            });
+        });
 
-        // Render Card Layout (Grid or List)
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             const emptyState = document.getElementById('emptyState');
-            const filtered = getFilteredEntries();
+
+            const filtered = GLOSSARY_DATA.filter(item => {
+                return item.title.toLowerCase().includes(searchQuery) ||
+                       item.summary.toLowerCase().includes(searchQuery) ||
+                       item.content.toLowerCase().includes(searchQuery);
+            });
 
             if (filtered.length === 0) {
                 container.innerHTML = '';
@@ -596,230 +337,40 @@
             }
 
             emptyState.classList.add('hidden');
-
-            if (viewMode === 'grid') {
-                container.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6';
-                container.innerHTML = filtered.map(item => createGridCardHTML(item)).join('');
-            } else {
-                container.className = 'flex flex-col gap-3';
-                container.innerHTML = filtered.map(item => createListRowHTML(item)).join('');
-            }
-        }
-
-        function createGridCardHTML(item) {
-            const dateStr = new Date(item.createdAt).toLocaleDateString('es-ES', { month: 'short', day: 'numeric', year: 'numeric' });
-            return `
-                <div class="glass-panel gold-border-glow rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 relative group">
-                    <div class="space-y-3">
-                        <!-- Top Header inside card -->
+            container.innerHTML = filtered.map(item => `
+                <div onclick="openReaderModal('${item.id}')" class="glass-panel gold-card-hover rounded-2xl p-6 flex flex-col justify-between cursor-pointer space-y-4 relative group">
+                    <div class="space-y-2">
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <span class="text-xl">${item.emoji || '📌'}</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-amber-500/10 text-champagne-400 border border-amber-500/20">
-                                    ${item.category}
-                                </span>
-                            </div>
-                            <button onclick="toggleFavorite('${item.id}', event)" class="p-1.5 text-slate-500 hover:text-amber-400 transition-colors">
-                                <i data-lucide="star" class="w-4 h-4 ${item.isFavorite ? 'text-amber-400 fill-amber-400' : ''}"></i>
-                            </button>
+                            <span class="text-[10px] font-semibold text-champagne-400 uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/20">
+                                Konzeptua
+                            </span>
+                            <i data-lucide="arrow-up-right" class="w-4 h-4 text-slate-500 group-hover:text-champagne-400 transition-colors"></i>
                         </div>
-
-                        <!-- Title -->
-                        <h3 onclick="openReaderModal('${item.id}')" class="font-serif text-lg font-bold text-slate-100 hover:text-champagne-300 cursor-pointer transition-colors leading-snug line-clamp-2">
+                        <h2 class="font-serif text-xl font-bold text-slate-100 light:text-slate-900 group-hover:text-champagne-300 transition-colors">
                             ${escapeHTML(item.title)}
-                        </h3>
-
-                        <!-- Summary -->
-                        <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                        </h2>
+                        <p class="text-xs text-slate-300 light:text-slate-600 leading-relaxed">
                             ${escapeHTML(item.summary)}
                         </p>
                     </div>
 
-                    <!-- Card Footer Actions -->
-                    <div class="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-                        <span class="flex items-center gap-1 font-light">
-                            <i data-lucide="calendar" class="w-3 h-3 text-champagne-500/70"></i> ${dateStr}
-                        </span>
-
-                        <div class="flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
-                            <button onclick="openReaderModal('${item.id}')" title="Leer Completo" class="p-1.5 hover:text-amber-300 hover:bg-obsidian-700/80 rounded-lg transition-all">
-                                <i data-lucide="eye" class="w-4 h-4"></i>
-                            </button>
-                            <button onclick="openEditModal('${item.id}', event)" title="Editar" class="p-1.5 hover:text-blue-400 hover:bg-obsidian-700/80 rounded-lg transition-all">
-                                <i data-lucide="edit-3" class="w-4 h-4"></i>
-                            </button>
-                            <button onclick="promptDelete('${item.id}', event)" title="Eliminar" class="p-1.5 hover:text-red-400 hover:bg-obsidian-700/80 rounded-lg transition-all">
-                                <i data-lucide="trash-2" class="w-4 h-4"></i>
-                            </button>
-                        </div>
+                    <div class="pt-3 border-t border-slate-800/60 light:border-slate-200 flex items-center justify-between text-xs text-champagne-400/80 font-medium">
+                        <span>Irakurri xehetasunak</span>
+                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                     </div>
                 </div>
-            `;
+            `).join('');
+
+            lucide.createIcons();
         }
 
-        function createListRowHTML(item) {
-            const dateStr = new Date(item.createdAt).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' });
-            return `
-                <div class="glass-panel gold-border-glow rounded-xl p-4 flex items-center justify-between gap-4 transition-all duration-200">
-                    <div class="flex items-center gap-3 min-w-0 flex-1 cursor-pointer" onclick="openReaderModal('${item.id}')">
-                        <span class="text-2xl flex-shrink-0">${item.emoji || '📌'}</span>
-                        <div class="min-w-0 flex-1">
-                            <div class="flex items-center gap-2">
-                                <h3 class="font-serif font-bold text-sm text-slate-100 truncate hover:text-champagne-300">
-                                    ${escapeHTML(item.title)}
-                                </h3>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-medium bg-amber-500/10 text-champagne-400 border border-amber-500/20 flex-shrink-0">
-                                    ${item.category}
-                                </span>
-                            </div>
-                            <p class="text-xs text-slate-400 truncate mt-0.5">${escapeHTML(item.summary)}</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3 flex-shrink-0">
-                        <span class="text-xs text-slate-500 hidden sm:inline">${dateStr}</span>
-                        <button onclick="toggleFavorite('${item.id}', event)" class="p-1.5 text-slate-500 hover:text-amber-400 transition-colors">
-                            <i data-lucide="star" class="w-4 h-4 ${item.isFavorite ? 'text-amber-400 fill-amber-400' : ''}"></i>
-                        </button>
-                        <button onclick="openEditModal('${item.id}', event)" title="Editar" class="p-1.5 text-slate-400 hover:text-blue-400 rounded-lg transition-all">
-                            <i data-lucide="edit-3" class="w-4 h-4"></i>
-                        </button>
-                        <button onclick="promptDelete('${item.id}', event)" title="Eliminar" class="p-1.5 text-slate-400 hover:text-red-400 rounded-lg transition-all">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Filter Actions
-        function setCategoryFilter(cat) {
-            activeCategory = cat;
-            renderApp();
-        }
-
-        function toggleFavorite(id, event) {
-            if (event) event.stopPropagation();
-            const entry = entries.find(e => e.id === id);
-            if (entry) {
-                entry.isFavorite = !entry.isFavorite;
-                saveStorageData();
-                renderApp();
-                showToast(entry.isFavorite ? 'Añadido a favoritos' : 'Quitado de favoritos', 'info');
-            }
-        }
-
-        // Form Modal Actions (Create / Edit)
-        function openCreateModal() {
-            document.getElementById('modalTitle').innerText = 'Nueva Entrada de Información';
-            document.getElementById('entryId').value = '';
-            document.getElementById('entryForm').reset();
-            document.getElementById('formModal').classList.remove('hidden');
-        }
-
-        function openEditModal(id, event) {
-            if (event) event.stopPropagation();
-            const entry = entries.find(e => e.id === id);
-            if (!entry) return;
-
-            document.getElementById('modalTitle').innerText = 'Editar Entrada';
-            document.getElementById('entryId').value = entry.id;
-            document.getElementById('inputTitle').value = entry.title;
-            document.getElementById('inputCategory').value = entry.category;
-            document.getElementById('inputEmoji').value = entry.emoji || '💡';
-            document.getElementById('inputSummary').value = entry.summary;
-            document.getElementById('inputContent').value = entry.content;
-            document.getElementById('inputUrl').value = entry.url || '';
-            document.getElementById('inputFavorite').checked = !!entry.isFavorite;
-
-            document.getElementById('formModal').classList.remove('hidden');
-        }
-
-        function closeFormModal() {
-            document.getElementById('formModal').classList.add('hidden');
-        }
-
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('entryId').value;
-            const title = document.getElementById('inputTitle').value.trim();
-            const category = document.getElementById('inputCategory').value.trim();
-            const emoji = document.getElementById('inputEmoji').value;
-            const summary = document.getElementById('inputSummary').value.trim();
-            const content = document.getElementById('inputContent').value.trim();
-            const url = document.getElementById('inputUrl').value.trim();
-            const isFavorite = document.getElementById('inputFavorite').checked;
-
-            if (id) {
-                // Edit existing
-                const entry = entries.find(e => e.id === id);
-                if (entry) {
-                    entry.title = title;
-                    entry.category = category;
-                    entry.emoji = emoji;
-                    entry.summary = summary;
-                    entry.content = content;
-                    entry.url = url;
-                    entry.isFavorite = isFavorite;
-                    showToast('Entrada actualizada correctamente', 'success');
-                }
-            } else {
-                // Create new
-                const newEntry = {
-                    id: Date.now().toString(),
-                    title,
-                    category,
-                    emoji,
-                    summary,
-                    content,
-                    url,
-                    isFavorite,
-                    createdAt: new Date().toISOString()
-                };
-                entries.unshift(newEntry);
-                showToast('Nueva entrada creada con éxito', 'success');
-            }
-
-            saveStorageData();
-            closeFormModal();
-            renderApp();
-        }
-
-        // Reader Modal Actions
         function openReaderModal(id) {
-            const entry = entries.find(e => e.id === id);
+            const entry = GLOSSARY_DATA.find(e => e.id === id);
             if (!entry) return;
 
-            activeReaderEntryId = id;
-            document.getElementById('readerEmoji').innerText = entry.emoji || '💡';
-            document.getElementById('readerCategory').innerText = entry.category;
             document.getElementById('readerTitle').innerText = entry.title;
             document.getElementById('readerSummary').innerText = entry.summary;
-            document.getElementById('readerContent').innerText = entry.content;
-            
-            const dateStr = new Date(entry.createdAt).toLocaleDateString('es-ES', { 
-                day: 'numeric', month: 'long', year: 'numeric' 
-            });
-            document.getElementById('readerDate').innerHTML = `<i data-lucide="clock" class="w-3.5 h-3.5 text-champagne-400"></i> Guardado el ${dateStr}`;
-
-            const linkContainer = document.getElementById('readerLinkContainer');
-            const linkEl = document.getElementById('readerLink');
-            if (entry.url) {
-                linkEl.href = entry.url;
-                linkContainer.classList.remove('hidden');
-            } else {
-                linkContainer.classList.add('hidden');
-            }
-
-            // Update Star icon status in reader
-            const starIcon = document.querySelector('#readerFavoriteBtn i');
-            if (starIcon) {
-                if (entry.isFavorite) {
-                    starIcon.classList.add('text-amber-400', 'fill-amber-400');
-                } else {
-                    starIcon.classList.remove('text-amber-400', 'fill-amber-400');
-                }
-            }
+            document.getElementById('readerContent').innerHTML = formatMarkdown(entry.content);
 
             document.getElementById('readerModal').classList.remove('hidden');
             lucide.createIcons();
@@ -827,196 +378,28 @@
 
         function closeReaderModal() {
             document.getElementById('readerModal').classList.add('hidden');
-            activeReaderEntryId = null;
         }
 
-        // Delete Confirmation Modal Actions
-        function promptDelete(id, event) {
-            if (event) event.stopPropagation();
-            pendingDeleteId = id;
-            document.getElementById('confirmModal').classList.remove('hidden');
-        }
-
-        function confirmDelete() {
-            if (pendingDeleteId) {
-                entries = entries.filter(e => e.id !== pendingDeleteId);
-                saveStorageData();
-                renderApp();
-                showToast('Entrada eliminada', 'info');
-                pendingDeleteId = null;
-            }
-            document.getElementById('confirmModal').classList.add('hidden');
-            if (activeReaderEntryId) closeReaderModal();
-        }
-
-        function cancelDelete() {
-            pendingDeleteId = null;
-            document.getElementById('confirmModal').classList.add('hidden');
-        }
-
-        // Export & Import Data
-        function exportBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(entries, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `aurea_backup_${new Date().toISOString().slice(0, 10)}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
-            showToast('Copia de seguridad exportada', 'success');
-        }
-
-        function importBackup(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                try {
-                    const imported = JSON.parse(event.target.result);
-                    if (Array.isArray(imported)) {
-                        entries = imported;
-                        saveStorageData();
-                        renderApp();
-                        showToast('Datos importados correctamente', 'success');
-                    } else {
-                        showToast('El archivo no tiene el formato adecuado', 'error');
-                    }
-                } catch (err) {
-                    showToast('Error al leer el archivo JSON', 'error');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        // Safe Clipboard Copying
-        function copyReaderContent() {
-            if (!activeReaderEntryId) return;
-            const entry = entries.find(e => e.id === activeReaderEntryId);
-            if (!entry) return;
-
-            const textToCopy = `${entry.title}\n\n${entry.summary}\n\n${entry.content}${entry.url ? '\n\nEnlace: ' + entry.url : ''}`;
+        /* Simple Markdown Formatter Helper */
+        function formatMarkdown(text) {
+            let html = escapeHTML(text);
+            // Headers
+            html = html.replace(/### (.*?)\n/g, '<h3>$1</h3>');
+            // Bold
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="text-slate-100 light:text-slate-900 font-semibold">$1</strong>');
+            // Lists
+            html = html.replace(/^\* (.*$)/gim, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
             
-            // Fallback for iframe / safe environment
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = textToCopy;
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            try {
-                document.execCommand('copy');
-                showToast('Contenido copiado al portapapeles', 'success');
-            } catch (err) {
-                showToast('Error al copiar el texto', 'error');
-            }
-            document.body.removeChild(tempTextArea);
+            return html;
         }
 
-        // Custom Toast System (Replaces alert)
-        function showToast(message, type = 'info') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            
-            let bgBorder = 'bg-obsidian-800 border-amber-500/40 text-amber-200';
-            if (type === 'success') bgBorder = 'bg-obsidian-800 border-emerald-500/40 text-emerald-300';
-            if (type === 'error') bgBorder = 'bg-obsidian-800 border-red-500/40 text-red-300';
-
-            toast.className = `glass-panel pointer-events-auto px-4 py-3 rounded-xl border text-xs font-medium shadow-xl flex items-center gap-2 transform transition-all duration-300 opacity-0 translate-y-2 ${bgBorder}`;
-            toast.innerHTML = `<span>${message}</span>`;
-
-            container.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-2');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', '-translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // HTML Escaping Utility
+        /* Escape HTML Helper */
         function escapeHTML(str) {
             return str ? str.replace(/[&<>'"]/g, 
                 tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
             ) : '';
         }
-
-        // Event Listeners Setup
-        document.addEventListener('DOMContentLoaded', () => {
-            loadStorageData();
-            renderApp();
-
-            // Search
-            document.getElementById('searchInput').addEventListener('input', (e) => {
-                currentSearchQuery = e.target.value;
-                renderCards();
-            });
-
-            // Sort
-            document.getElementById('sortSelect').addEventListener('change', (e) => {
-                currentSort = e.target.value;
-                renderCards();
-            });
-
-            // View Toggles
-            document.getElementById('viewGridBtn').addEventListener('click', () => {
-                viewMode = 'grid';
-                document.getElementById('viewGridBtn').className = 'p-1.5 rounded-lg text-amber-400 bg-obsidian-700 transition-all';
-                document.getElementById('viewListBtn').className = 'p-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-all';
-                renderCards();
-            });
-
-            document.getElementById('viewListBtn').addEventListener('click', () => {
-                viewMode = 'list';
-                document.getElementById('viewListBtn').className = 'p-1.5 rounded-lg text-amber-400 bg-obsidian-700 transition-all';
-                document.getElementById('viewGridBtn').className = 'p-1.5 rounded-lg text-slate-400 hover:text-slate-200 transition-all';
-                renderCards();
-            });
-
-            // Theme Toggle
-            document.getElementById('themeToggleBtn').addEventListener('click', () => {
-                document.documentElement.classList.toggle('dark');
-                document.documentElement.classList.toggle('light');
-            });
-
-            // Buttons & Modals
-            document.getElementById('addNewBtn').addEventListener('click', openCreateModal);
-            document.getElementById('closeFormModalBtn').addEventListener('click', closeFormModal);
-            document.getElementById('cancelFormBtn').addEventListener('click', closeFormModal);
-            document.getElementById('entryForm').addEventListener('submit', handleFormSubmit);
-
-            document.getElementById('closeReaderModalBtn').addEventListener('click', closeReaderModal);
-            document.getElementById('readerCopyBtn').addEventListener('click', copyReaderContent);
-            document.getElementById('readerFavoriteBtn').addEventListener('click', () => {
-                if (activeReaderEntryId) toggleFavorite(activeReaderEntryId);
-                const entry = entries.find(e => e.id === activeReaderEntryId);
-                if (entry) openReaderModal(entry.id);
-            });
-            document.getElementById('readerEditBtn').addEventListener('click', () => {
-                if (activeReaderEntryId) {
-                    const id = activeReaderEntryId;
-                    closeReaderModal();
-                    openEditModal(id);
-                }
-            });
-
-            // Confirm Delete
-            document.getElementById('acceptConfirmBtn').addEventListener('click', confirmDelete);
-            document.getElementById('cancelConfirmBtn').addEventListener('click', cancelDelete);
-
-            // Clear Filters
-            document.getElementById('clearFiltersBtn').addEventListener('click', () => {
-                currentSearchQuery = '';
-                activeCategory = 'ALL';
-                document.getElementById('searchInput').value = '';
-                renderApp();
-            });
-
-            // Export & Import
-            document.getElementById('exportBtn').addEventListener('click', exportBackup);
-            document.getElementById('importInput').addEventListener('change', importBackup);
-        });
     </script>
 </body>
 </html>
